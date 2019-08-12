@@ -1,0 +1,27 @@
+{
+  "name": "svgpathcli",
+  "version": "1.0.0",
+  "description": "",
+  "main": "svgpathcli.js",
+  "bin": {
+    "svgpathcli": "svgpathcli.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/luchenatwork/SvgPathCli.git"
+  },
+  "keywords": [
+    "svg"
+  ],
+  "author": "Chen Lu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/luchenatwork/SvgPathCli/issues"
+  },
+  "homepage": "https://github.com/luchenatwork/SvgPathCli#readme",
+  "dependencies": {
+    "lodash": "^4.17.15",
+    "svgpath": "^2.2.2",
+    "xmldom": "^0.1.27"
+  }
+}
