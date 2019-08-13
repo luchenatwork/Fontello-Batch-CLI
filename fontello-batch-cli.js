@@ -43,7 +43,7 @@ fs.writeFileSync('config.json', JSON.stringify(output), {
 });
 
 fontello.install({
-  config: path.join(svgFilesPath, 'config.json'),
+  config: 'config.json',
   css: null,
   font: null,
   host: null,
