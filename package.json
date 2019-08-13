@@ -20,8 +20,12 @@
   },
   "homepage": "https://github.com/luchenatwork/SvgPathCli#readme",
   "dependencies": {
+    "argparse": "^1.0.10",
     "lodash": "^4.17.15",
+    "needle": "^2.4.0",
+    "open": "^6.4.0",
     "svgpath": "^2.2.2",
+    "unzip": "^0.1.11",
     "xmldom": "^0.1.27"
   }
 }

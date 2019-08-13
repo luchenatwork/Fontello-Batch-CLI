@@ -6,9 +6,22 @@ var fs = require('fs');
 var path = require('path');
 var SvgPath = require('svgpath');
 var svg_image_flatten = require('./svgflatten');
+var ArgumentParser = require('argparse').ArgumentParser;
+var fontello = require('./fontello');
+
+var parser = new ArgumentParser({
+  version: require('./package.json').version,
+  addHelp: true,
+  description: 'Fontello Batch CLI'
+});
+parser.addArgument(['-p', '--path'], {
+  help: 'Source SVG Font Path, e.g., "C:\\Svg Source", C:\\SvgSource',
+  required: true
+});
+var args = parser.parseArgs();
 
 var allocatedRefCode = 0xe800;
-const svgFilesPath = 'D:\\Download\\SvgTest';
+const svgFilesPath = args.path;
 var svgFiles = filterSvgFiles(svgFilesPath);
 var glyphs = [];
 
@@ -69,6 +82,14 @@ fs.writeFileSync(
     flag: 'w'
   }
 );
+
+fontello.install({
+  config: path.join(svgFilesPath, 'config.json'),
+  css: null,
+  font: null,
+  host: null,
+  proxy: null
+});
 
 function uid() {
   /*eslint-disable no-bitwise*/
