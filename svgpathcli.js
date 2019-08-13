@@ -3,29 +3,92 @@
 'use strict';
 
 var fs = require('fs');
+var path = require('path');
 var SvgPath = require('svgpath');
 var svg_image_flatten = require('./svgflatten');
 
-var data = fs.readFileSync(
-  'D:\\Download\\SvgTest\\Icon Checkbox Circle Checked 24px.svg',
-  'utf-8'
+var allocatedRefCode = 0xe800;
+const svgFilesPath = 'D:\\Download\\SvgTest';
+var svgFiles = filterSvgFiles(svgFilesPath);
+var glyphs = [];
+
+svgFiles.forEach(function(svgFile) {
+  var path = require('path');
+  var glyphName = path.basename(svgFile, '.svg').replace(/\s/g, '-');
+  var data = fs.readFileSync(svgFile, 'utf-8');
+
+  var result = svg_image_flatten(data);
+
+  if (result.error) {
+    console.error(result.error);
+    return;
+  }
+
+  var scale = 1000 / result.height;
+  var path = new SvgPath(result.d)
+    .translate(-result.x, -result.y)
+    .scale(scale)
+    .abs()
+    .round(1)
+    .toString();
+
+  if (path === '') {
+    console.error(svgFile + ' has no path data!');
+    return;
+  }
+
+  glyphs.push({
+    uid: uid(),
+    css: glyphName,
+    code: allocatedRefCode++,
+    src: 'custom_icons',
+    selected: true,
+    svg: {
+      path: path,
+      width: 1000
+    },
+    search: [glyphName]
+  });
+});
+
+var output = {
+  name: '',
+  css_prefix_text: 'icon-',
+  css_use_suffix: false,
+  hinting: true,
+  units_per_em: 1000,
+  ascent: 850,
+  glyphs: glyphs
+};
+
+fs.writeFileSync(
+  path.join(svgFilesPath, 'config.json'),
+  JSON.stringify(output),
+  {
+    encoding: 'utf-8',
+    flag: 'w'
+  }
 );
-// var data =
-//   '<?xml version="1.0" encoding="UTF-8"?><svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><!-- Generator: Sketch 55.2 (78181) - https://sketchapp.com --><title>Icons/24px/Icon Actions 24px</title><desc>Created with Sketch.</desc><g id="Icons/24px/Icon-Actions-24px" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><path d="M17,11.5 L17,12.5 L7,12.5 L7,11.5 L17,11.5 Z M12,22 C6.4771525,22 2,17.5228475 2,12 C2,6.4771525 6.4771525,2 12,2 C17.5228475,2 22,6.4771525 22,12 C22,17.5228475 17.5228475,22 12,22 Z M12,20.9569161 C16.9467682,20.9569161 20.9569161,16.9467682 20.9569161,12 C20.9569161,7.05323183 16.9467682,3.0430839 12,3.0430839 C7.05323183,3.0430839 3.0430839,7.05323183 3.0430839,12 C3.0430839,16.9467682 7.05323183,20.9569161 12,20.9569161 Z" id="Icon-Actions" fill="#808082"></path></g></svg>';
 
-var result = svg_image_flatten(data);
-
-if (result.error) {
-  console.error(result.error);
-  return;
+function uid() {
+  /*eslint-disable no-bitwise*/
+  return 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'.replace(/[x]/g, function() {
+    return ((Math.random() * 16) | 0).toString(16);
+  });
 }
 
-var scale = 1000 / result.height;
-var output = new SvgPath(result.d)
-  .translate(-result.x, -result.y)
-  .scale(scale)
-  .abs()
-  .round(1)
-  .toString();
+function filterSvgFiles(svgFolderPath) {
+  let files = fs.readdirSync(svgFolderPath, 'utf-8');
+  let svgArr = [];
+  if (!files) {
+    throw new Error(`Error! Svg folder is empty.${svgFolderPath}`);
+  }
 
-console.log(output);
+  for (let i in files) {
+    if (typeof files[i] !== 'string' || path.extname(files[i]) !== '.svg')
+      continue;
+    if (!~svgArr.indexOf(files[i]))
+      svgArr.push(path.join(svgFolderPath, files[i]));
+  }
+  return svgArr;
+}
