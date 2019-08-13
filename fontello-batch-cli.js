@@ -25,44 +25,7 @@ const svgFilesPath = args.path;
 var svgFiles = filterSvgFiles(svgFilesPath);
 var glyphs = [];
 
-svgFiles.forEach(function(svgFile) {
-  var path = require('path');
-  var glyphName = path.basename(svgFile, '.svg').replace(/\s/g, '-');
-  var data = fs.readFileSync(svgFile, 'utf-8');
-
-  var result = svg_image_flatten(data);
-
-  if (result.error) {
-    console.error(result.error);
-    return;
-  }
-
-  var scale = 1000 / result.height;
-  var path = new SvgPath(result.d)
-    .translate(-result.x, -result.y)
-    .scale(scale)
-    .abs()
-    .round(1)
-    .toString();
-
-  if (path === '') {
-    console.error(svgFile + ' has no path data!');
-    return;
-  }
-
-  glyphs.push({
-    uid: uid(),
-    css: glyphName,
-    code: allocatedRefCode++,
-    src: 'custom_icons',
-    selected: true,
-    svg: {
-      path: path,
-      width: 1000
-    },
-    search: [glyphName]
-  });
-});
+svgFiles.forEach(createGlyph());
 
 var output = {
   name: '',
@@ -74,14 +37,10 @@ var output = {
   glyphs: glyphs
 };
 
-fs.writeFileSync(
-  path.join(svgFilesPath, 'config.json'),
-  JSON.stringify(output),
-  {
-    encoding: 'utf-8',
-    flag: 'w'
-  }
-);
+fs.writeFileSync('config.json', JSON.stringify(output), {
+  encoding: 'utf-8',
+  flag: 'w'
+});
 
 fontello.install({
   config: path.join(svgFilesPath, 'config.json'),
@@ -90,6 +49,42 @@ fontello.install({
   host: null,
   proxy: null
 });
+
+function createGlyph() {
+  return function(svgFile) {
+    var path = require('path');
+    var glyphName = path.basename(svgFile, '.svg').replace(/\s/g, '-');
+    var data = fs.readFileSync(svgFile, 'utf-8');
+    var result = svg_image_flatten(data);
+    if (result.error) {
+      console.error(result.error);
+      return;
+    }
+    var scale = 1000 / result.height;
+    var path = new SvgPath(result.d)
+      .translate(-result.x, -result.y)
+      .scale(scale)
+      .abs()
+      .round(1)
+      .toString();
+    if (path === '') {
+      console.error(svgFile + ' has no path data!');
+      return;
+    }
+    glyphs.push({
+      uid: uid(),
+      css: glyphName,
+      code: allocatedRefCode++,
+      src: 'custom_icons',
+      selected: true,
+      svg: {
+        path: path,
+        width: 1000
+      },
+      search: [glyphName]
+    });
+  };
+}
 
 function uid() {
   /*eslint-disable no-bitwise*/

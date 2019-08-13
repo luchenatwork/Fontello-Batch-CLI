@@ -1,24 +1,30 @@
 {
-  "name": "svgpathcli",
+  "name": "fontello-batch-cli",
   "version": "1.0.0",
-  "description": "",
-  "main": "svgpathcli.js",
+  "description": "Batch command line interface for Fontello.",
+  "main": "fontello-batch-cli.js",
   "bin": {
-    "svgpathcli": "svgpathcli.js"
+    "fontello-batch-cli": "fontello-batch-cli.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/luchenatwork/SvgPathCli.git"
+    "url": "git+https://github.com/luchenatwork/Fontello-Batch-CLI.git"
   },
   "keywords": [
-    "svg"
+    "svg",
+    "woff",
+    "woff2",
+    "fontello",
+    "cli",
+    "font",
+    "icon"
   ],
   "author": "Chen Lu",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/luchenatwork/SvgPathCli/issues"
+    "url": "https://github.com/luchenatwork/Fontello-Batch-CLI/issues"
   },
-  "homepage": "https://github.com/luchenatwork/SvgPathCli#readme",
+  "homepage": "https://github.com/luchenatwork/Fontello-Batch-CLI#readme",
   "dependencies": {
     "argparse": "^1.0.10",
     "lodash": "^4.17.15",
