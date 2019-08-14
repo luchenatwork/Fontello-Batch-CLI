@@ -23,7 +23,7 @@ $ fontello-batch-cli --path "C:\Svg Source Folder"
 
 ## Example Svg Files Source Folder
 
-![](https://raw.githubusercontent.com/luchenatwork/Fontello-Batch-CLI/master/doc/source.png?token=AGXXZGABCJNHOK4AGGCVGV25KNQXC)
+![](https://raw.githubusercontent.com/luchenatwork/Fontello-Batch-CLI/master/doc/source.png)
 
 ## Example Command Output Folder
 
