@@ -19,6 +19,9 @@ $ fontello-batch-cli --help
 $ fontello-batch-cli --version
 $ fontello-batch-cli --path C:\SvgSourceFolder
 $ fontello-batch-cli --path "C:\Svg Source Folder"
+
+If you want to use your self hosted Fontello server, specify Fontello server with --host argument, otherwise, without --host argument, default to http://fontello.com.
+$ fontello-batch-cli --path "C:\Svg Source Folder" --host http://localhost:3000
 ```
 
 ## Example Svg Files Source Folder

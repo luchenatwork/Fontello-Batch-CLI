@@ -18,6 +18,11 @@ parser.addArgument(['-p', '--path'], {
   help: 'Source SVG Font Path, e.g., "C:\\Svg Source", C:\\SvgSource',
   required: true
 });
+parser.addArgument(['-s', '--host'], {
+  help:
+    'Fontello Host Website Url, e.g., http://fontello.com, http://localhost:3000',
+  required: false
+});
 var args = parser.parseArgs();
 
 var allocatedRefCode = 0xe800;
@@ -31,7 +36,7 @@ var output = {
   name: '',
   css_prefix_text: 'icon-',
   css_use_suffix: false,
-  hinting: true,
+  hinting: false,
   units_per_em: 1000,
   ascent: 850,
   glyphs: glyphs
@@ -46,7 +51,7 @@ fontello.install({
   config: 'config.json',
   css: null,
   font: null,
-  host: null,
+  host: args.host,
   proxy: null
 });
 
