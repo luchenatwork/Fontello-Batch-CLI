@@ -24,6 +24,9 @@ If you want to use your self hosted Fontello server, specify Fontello server wit
 $ fontello-batch-cli --path "C:\Svg Source Folder" --host http://localhost:3000
 ```
 
+## Self Hosted Fontello Server
+If you want to host your own Fontello Server, give a try [Fontello Server Docker Image](https://hub.docker.com/r/luchenatwork/fontello-server).
+
 ## Example Svg Files Source Folder
 
 ![](https://raw.githubusercontent.com/luchenatwork/Fontello-Batch-CLI/master/doc/source.png)
